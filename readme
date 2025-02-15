@@ -1,0 +1,43 @@
+
+# Crypto Multi-Agent System for On-Chain Anomaly Detection & CryptoGuardian
+
+Welcome to our repository : a hackathon project that combines multiple AI agents to perform on-chain analysis, detect pump & dump scams, predict prices, analyze sentiment, and generate dynamic visualizations. Our ecosystem also includes **CryptoGuardian**, a sleek React web application that aggregates all our tools and delivers real‑time crypto insights with a futuristic design.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Architecture Diagram](#architecture-diagram)
+- [Components](#components)
+  - [1. Pump & Dump Detection Model](#1-pump--dump-detection-model)
+  - [2. Price Prediction Model](#2-price-prediction-model)
+  - [3. Sentiment Analysis & News Scraper](#3-sentiment-analysis--news-scraper)
+  - [4. Telegram Chat Analysis](#4-telegram-chat-analysis)
+  - [5. Crypto Chatbot](#5-crypto-chatbot)
+  - [6. Blogging AI Agent](#6-blogging-ai-agent)
+  - [7. Visualization & Video Generation Agent](#7-visualization--video-generation-agent)
+  - [8. CryptoGuardian React App](#8-cryptoguardian-react-app)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Contributions](#contributions)
+- [License](#license)
+
+
+## Overview
+
+## Overview
+
+Welcome to the **Crypto Multi-Agent System for On-Chain Anomaly Detection & CryptoGuardian** project! Our project is an innovative blend of technologies designed to simplify the complexities of the cryptocurrency world. By combining advanced techniques such as Retrieval Augmented Generation (RAG), natural language processing (NLP) and many other machine learning techniques. 
+
+Whether you're looking for real-time crypto news, interactive price charts, or insightful predictive analytics or advice about potential scams we provided all through our online blogs or website 🚀
+
+
+**Key Features:**
+
+- **Anomaly Detection 🔍:** Utilizes machine learning to identify potential pump and dump schemes by analyzing transaction patterns.
+- **Price Prediction 📈:** Forecasts Ethereum prices for the upcoming seven days using advanced predictive models.
+- **Sentiment Analysis 📰:** Scrapes and categorizes news from popular crypto websites, determining the overall sentiment in categories such as political news, market news, and new coin announcements.
+- **Telegram Chat Analysis 💬:** Monitors discussions in prominent Telegram groups to detect conversations about potential scams.
+- **Crypto Chatbot 🤖:** An AI-driven conversational agent trained on extensive cryptocurrency and blockchain literature, capable of understanding context and providing accurate responses.
+- **Blogging AI Agent 📝:** Automatically generates and publishes blog posts to social media platforms when significant events or risks are detected.
+- **Visualization Agent 📊:** Creates dynamic Vizzu charts that animate and illustrate the evolution of Ethereum's price and transaction volumes over the past week.
+- **CryptoGuardian React App 💻:** A modern web application that consolidates all functionalities, offering real-time crypto news, comprehensive price charts, Ethereum price predictions, and an interactive chatbot with text-to-speech and speech-to-text capabilities.

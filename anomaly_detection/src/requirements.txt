@@ -1,0 +1,7 @@
+requests
+numpy
+python-dotenv
+mistralai
+schedule
+fastapi
+uvicorn

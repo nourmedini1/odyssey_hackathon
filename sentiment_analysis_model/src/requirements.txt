@@ -1,0 +1,6 @@
+
+telethon==1.38.1
+fastapi==0.115.8
+uvicorn==0.34.0
+python-dotenv==0.21.0
+mistralai==1.5.0  
