@@ -6,7 +6,6 @@ Welcome to our repository : a hackathon project that combines multiple AI agents
 ## Table of Contents
 
 - [Overview](#overview)
-- [Architecture Diagram](#architecture-diagram)
 - [Components](#components)
   - [1. Pump & Dump Detection Model](#1-pump--dump-detection-model)
   - [2. Price Prediction Model](#2-price-prediction-model)
@@ -14,15 +13,12 @@ Welcome to our repository : a hackathon project that combines multiple AI agents
   - [4. Telegram Chat Analysis](#4-telegram-chat-analysis)
   - [5. Crypto Chatbot](#5-crypto-chatbot)
   - [6. Blogging AI Agent](#6-blogging-ai-agent)
-  - [7. Visualization & Video Generation Agent](#7-visualization--video-generation-agent)
-  - [8. CryptoGuardian React App](#8-cryptoguardian-react-app)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-- [Contributions](#contributions)
-- [License](#license)
+  - [7. CryptoGuardian React App](#8-cryptoguardian-react-app)
+- [Future Improvements](#future_improvements)
+  - [Visualization & Video Generation Agent](#7-visualization--video-generation-agent)
 
 
-## Overview
+
 
 ## Overview
 
@@ -36,8 +32,181 @@ Whether you're looking for real-time crypto news, interactive price charts, or i
 - **Anomaly Detection 🔍:** Utilizes machine learning to identify potential pump and dump schemes by analyzing transaction patterns.
 - **Price Prediction 📈:** Forecasts Ethereum prices for the upcoming seven days using advanced predictive models.
 - **Sentiment Analysis 📰:** Scrapes and categorizes news from popular crypto websites, determining the overall sentiment in categories such as political news, market news, and new coin announcements.
-- **Telegram Chat Analysis 💬:** Monitors discussions in prominent Telegram groups to detect conversations about potential scams.
+- **Pump and Dump Detection Model 💬:** Gives a verdict on whether a series of transactions can be classified as part of a pump and dump scheme or not. 
 - **Crypto Chatbot 🤖:** An AI-driven conversational agent trained on extensive cryptocurrency and blockchain literature, capable of understanding context and providing accurate responses.
 - **Blogging AI Agent 📝:** Automatically generates and publishes blog posts to social media platforms when significant events or risks are detected.
-- **Visualization Agent 📊:** Creates dynamic Vizzu charts that animate and illustrate the evolution of Ethereum's price and transaction volumes over the past week.
 - **CryptoGuardian React App 💻:** A modern web application that consolidates all functionalities, offering real-time crypto news, comprehensive price charts, Ethereum price predictions, and an interactive chatbot with text-to-speech and speech-to-text capabilities.
+
+
+## Components
+
+### 1. Anomaly detection agent
+
+The **Anomaly Detection Agent** continuously monitors on-chain transactions to identify unusual patterns that may indicate pump-and-dump schemes. Running as a cron job every four hours, this agent performs several key functions:
+
+- **Risky Coin Identification:**  
+  - Analyzes transactions from the past four hours to determine which coins are most at risk of being exploited in pump-and-dump schemes.
+  - Focuses on coins that are new, exhibit low trading volume, and show atypical transaction behavior.
+
+- **Probabilistic Analysis:**  
+  - Calculates probabilistic characteristics such as expected price changes and fluctuations in trade volume.
+  - Uses these metrics to assess the likelihood of market manipulation or anomalous behavior.
+
+- **Integration with Detection and Sentiment Models:**  
+  - Feeds the extracted transaction features into a dedicated pump-and-dump detection model for further analysis.
+  - Connects with a sentiment analysis model to gauge community sentiment around these risky coins.
+  - Combines quantitative data with qualitative sentiment to provide a robust assessment of potential anomalies.
+
+- **Automated Blog Generation:**  
+  - When a potential pump-and-dump is detected, the agent triggers the Blogging AI Agent.
+  - This agent generates an engaging blog post summarizing the detected anomaly and relevant market insights, alerting the community in real time.
+
+This multi-layered approach leverages both market data and community sentiment to detect anomalies early and provide proactive alerts, helping users stay informed about potential pump-and-dump activities.
+
+### 2. Price Prediction Model
+
+Our **Price Prediction Model** is designed to forecast Ethereum's price movement for the upcoming week by analyzing historical market data. This model is trained on extensive historical records of past opening and closing prices, along with other key market indicators, to deliver reliable predictions. Key aspects of the model include:
+
+- **Historical Data Analysis:**  
+  The model leverages historical data (e.g., opening and closing prices, trading volumes) to understand market trends and volatility over time.
+
+- **Diverse Model Structure:**  
+  Multiple predictive models are employed, including time series analysis, regression techniques, and ensemble methods. This layered approach helps capture complex market dynamics and improves forecast accuracy.
+
+- **Feature Engineering:**  
+  Critical features such as moving averages, volatility measures, and momentum indicators are extracted from the data. These features are then used to enhance the predictive capabilities of the models.
+
+- **Ensemble Forecasting:**  
+  Predictions from different models are combined using ensemble methods, resulting in a robust and reliable forecast for Ethereum's price change over the next week.
+
+By integrating these components, the Price Prediction Model provides actionable insights, helping traders and investors make informed decisions in a highly dynamic cryptocurrency market.
+
+
+### 3. Sentiment Analysis & News Scraper
+
+The **Sentiment Analysis** component serves two vital roles in our multi-agent system:
+
+1. **Telegram Chat Analysis for Early Scam Detection:**
+   - **Real-Time Connection:**  
+     The model connects through a WebSocket to Telegram channels where discussions about pump-and-dump schemes are openly conducted.
+   - **Proactive Scam Detection:**  
+     By continuously monitoring these channels, it detects early signs of pump-and-dump discussions, enabling preemptive action to protect investors.
+   - **NLP Verdict:**  
+     Using advanced natural language processing (NLP) techniques, the system analyzes the messages and returns a verdict on whether pump-and-dump schemes are being discussed.
+
+2. **Crypto News Analysis for Market Sentiment:**
+   - **News Extraction:**  
+     The model extracts news headlines and articles from dedicated crypto news Telegram channels.
+   - **NLP Classification with Mistral AI:**  
+     Leveraging Mistral AI's powerful NLP capabilities, the system classifies the news into key categories:
+     - **Political News:** Identifies and infers political sentiment around cryptocurrencies.
+     - **Market News:** Detects trends and shifts in the crypto market.
+     - **New Projects/Coins:** Recognizes announcements about new coins and crypto projects.
+   - **Sentiment Inference:**  
+     The model synthesizes these classifications to provide an overall sentiment score, offering insights into the prevailing market mood.
+
+By integrating both real-time chat analysis and news classification, this component delivers comprehensive sentiment insights, empowering users to stay ahead of potential scams and market shifts.
+
+
+### 4. Pump & Dump Detection Model
+
+The **Pump & Dump Detection Model** is a dedicated machine learning classifier designed to identify transactions involved in pump-and-dump schemes. Key aspects of this model include:
+
+- **Training Data:**  
+  The model was trained on a historical dataset of on-chain transactions known to be part of pump-and-dump schemes. This historical data provides the basis for the model to learn patterns and anomalies associated with market manipulation.
+
+- **Classification Algorithm:**  
+  Leveraging advanced machine learning techniques, the model classifies transactions as either part of a pump-and-dump scheme or not. Its architecture is tuned to capture subtle anomalies in transaction behavior, price changes, and trade volumes.
+
+- **Accuracy and Limitations:**  
+  - **High Accuracy:** The model achieves a high level of accuracy under typical conditions, effectively flagging suspicious activity in real-time.
+  - **False Negatives:** Due to the inherent scarcity of pump-and-dump labels in the training dataset, the model may occasionally produce false negatives. This means that some illicit schemes might go undetected, highlighting an area for further data collection and model refinement.
+
+By continuously analyzing transaction data, the Pump & Dump Detection Model plays a crucial role in our multi-agent system, serving as an early warning mechanism to protect investors from market manipulation.
+
+### 5. Crypto Chatbot
+
+The **Crypto Chatbot** is an intelligent conversational agent integrated into both our Telegram chatbot and our website. It was developed using a Retrieval Augmented Generation (RAG) approach trained on dozens of PDF files, including research papers and articles on blockchain and cryptocurrency. This required implementing novel text extraction techniques to handle the varied formats of PDF documents, ensuring high-quality and consistent data ingestion.
+
+**Key Features:**
+
+- **Diverse Training Data:**  
+  - Extracts content from research papers, whitepapers, and articles on blockchain and cryptocurrencies.
+  - Employs advanced text extraction techniques to adapt to different PDF formats, ensuring robust data collection.
+
+- **Powerful Embedding Generation:**  
+  - Uses the **BAAI/bge-m3** model to create dense embeddings from the extracted text.
+  - Embeddings are stored in a **FAISS vector database** for rapid and efficient retrieval during interactions.
+
+- **Retrieval Augmented Generation (RAG):**  
+  - When a user poses a question, the system retrieves relevant text chunks from the FAISS database.
+  - These context-rich segments are combined with the query and passed to the language model (Mistral) to generate an accurate and context-aware response.
+
+- **Excellent Performance:**  
+  - Thanks to the sophisticated training on a diverse corpus of high-quality documents, the chatbot delivers outstanding performance and responsiveness.
+  - It effectively handles complex queries related to cryptocurrency and blockchain, providing valuable insights and guidance.
+
+This robust integration of data extraction, advanced embedding creation, and RAG techniques enables the Crypto Chatbot to serve as a reliable and knowledgeable resource for the crypto community.
+
+
+### 6. Blogging AI Agent
+
+The **Blogging AI Agent** is an integral part of our ecosystem, tightly integrated with Mistral AI. It is designed to receive requests that include a topic and context—often comprising the latest news or pump-and-dump alerts—and generate a comprehensive blog post accordingly. Once created, the blog post is automatically published to a Telegram group, ensuring that subscribers receive timely and insightful updates.
+
+**Key Features:**
+
+- **Contextual Content Generation:**  
+  The agent accepts requests containing a topic along with relevant context (such as recent news or pump-and-dump alerts). This ensures that each generated blog post is both topical and informative.
+
+- **Powered by Mistral AI:**  
+  Utilizing the advanced language understanding and generation capabilities of Mistral AI, the agent produces well-structured, engaging, and concise blog posts that communicate critical market alerts and insights.
+
+- **Automated Distribution:**  
+  Once the blog post is generated, it is automatically posted to a dedicated Telegram group for subscribers. This real-time distribution helps keep the community informed and prepared for potential market manipulations.
+
+- **Effective Communication of Alerts:**  
+  By converting complex market data and alerts into accessible and compelling narratives, the Blogging AI Agent has proven to be highly effective in communicating pump-and-dump scheme warnings, protecting investors from potential scams.
+
+This agent not only streamlines the content creation process but also enhances community awareness by delivering critical insights through an automated and efficient pipeline.
+
+### 7. CryptoGuardian React App
+
+The **CryptoGuardian React App** is a modern, responsive web application designed with an elegant, futuristic aesthetic. It serves as the central hub for all our crypto-related tools and provides users with a seamless, interactive experience. Key functionalities include:
+
+- **Integrated Chatbot:**  
+  - Communicate with an AI-driven crypto chatbot that leverages our multi-agent system.
+  - Receive real-time answers, alerts, and insights directly within the app.
+
+- **Real-Time Crypto News Panel:**  
+  - Aggregates the latest news and sentiment from multiple sources.
+  - Keeps users informed about market trends, regulatory updates, and emerging scams.
+
+- **Live Price Tracking:**  
+  - Monitor real-time price progress for various cryptocurrencies.
+  - View dynamic charts and visualizations that update as market data evolves.
+
+- **User-Friendly Interface:**  
+  - A clean, responsive design that works seamlessly across devices.
+  - Intuitive navigation and interactive panels ensure that users can quickly access and digest critical information.
+
+CryptoGuardian React App brings together cutting-edge AI and data visualization, empowering users with the insights and tools needed to navigate the fast-paced world of cryptocurrencies.
+
+
+
+### 🚀 Future Improvements
+
+#### 🎥 Visualization & Video Generation Agent
+One of the key enhancements we plan to implement is a **Video Generation Agent** that monitors transactions over a 7-day period, capturing critical on-chain data. This agent will analyze trends and patterns, transforming the raw data into compelling **data stories** through dynamic visualizations.
+
+The goal is to **communicate insights effectively** by:
+- Creating **animated charts** that illustrate key transaction trends.
+- Generating a **30-second video** summarizing the data story.
+- **Automatically posting** the video on social media with an explanation of the detected trends.
+
+We believe this feature is crucial in the context of **on-chain analysis**, as it enhances transparency, helps traders make informed decisions, and brings complex blockchain data to life. **This is a priority for us, and we are excited to develop it further!**
+
+
+
+
+
+
