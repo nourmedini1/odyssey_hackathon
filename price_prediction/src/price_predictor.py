@@ -205,15 +205,10 @@ def fine_tune_model_with_data(df, scaler, model, seq_length=30, pred_length=7):
 def daily_finetuning_job():
     try:
         print("Running daily fine-tuning job...")
-        # Fetch yesterday's data from Binance
         new_data = fetch_yesterday_data()
         print("Fetched data:", new_data)
-        
-        # Update the historical CSV
         df = update_historical_data(new_data)
         print("Historical data updated.")
-        
-        # Fine-tune the model with updated data
         global model, scaler  
         model, scaler = fine_tune_model_with_data(df, scaler, model)
         print("Model fine-tuned successfully.")
@@ -222,12 +217,10 @@ def daily_finetuning_job():
 
 
 scheduler = BackgroundScheduler()
-
 scheduler.add_job(daily_finetuning_job, 'cron', hour=6, minute=50)
 
 
 
 if __name__ == "__main__":
-
     scheduler.start()
     uvicorn.run(app, host="0.0.0.0", port=5020)

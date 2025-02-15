@@ -34,9 +34,9 @@ news_groups = [
 model = "mistral-large-latest"
 llm = Mistral(api_key=MISTRAL_API_KEY)
 
-# Use deque with maxlen to auto-remove old messages
-pnd_unsent_messages = deque(maxlen=20)  # Keeps last 20 messages
-news_unsent_messages = deque(maxlen=20) # Keeps last 20 messages
+
+pnd_unsent_messages = deque(maxlen=20)  
+news_unsent_messages = deque(maxlen=20) 
 
 def get_telegram_messages_prompt(messages):
     return f"""
@@ -97,7 +97,6 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# Create a handler factory that returns an event handler for a given queue.
 def make_event_handler(queue: deque):
     async def handler(event):
         print("Received message:", event.message.text)
@@ -110,7 +109,7 @@ def make_event_handler(queue: deque):
             "text": event.message.text,
             "timestamp": event.message.date.strftime('%Y-%m-%d %H:%M:%S')
         }
-        queue.append(message_data)  # Auto-removes old messages when maxlen is reached
+        queue.append(message_data)  
         print(f"Queue size is now: {len(queue)}")
     return handler
 
@@ -139,9 +138,9 @@ async def get_llm_sentiment_verdict(prompt):
 
 @app.get("/telegram/messages")
 def get_messages():
-    messages_to_send = list(pnd_unsent_messages)  # Copy the deque content
+    messages_to_send = list(pnd_unsent_messages)  
     analysis = asyncio.run(get_llm_sentiment_verdict(get_telegram_messages_prompt(messages_to_send)))
-    content = analysis.content  # Access the content attribute
+    content = analysis.content  
 
     try:
         content_json = content.split("```json")[-1].split("```")[0].strip()
@@ -172,7 +171,7 @@ def get_messages():
 
 @app.get("/news")
 def get_news():
-    messages_to_send = list(news_unsent_messages)  # Copy deque content, preserving queue
+    messages_to_send = list(news_unsent_messages)  
     analysis = asyncio.run(get_llm_sentiment_verdict(get_news_prompt(messages_to_send)))
     content = analysis.content
 

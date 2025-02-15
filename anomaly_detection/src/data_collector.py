@@ -8,10 +8,8 @@ import dotenv
 from mistralai import Mistral
 import schedule
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Load API keys from .env
 API_KEYS = {
     'COINMARKETCAP': dotenv.get_key('.env', 'COINMARKETCAP_API_KEY'),
     'ETHERSCAN': dotenv.get_key('.env', 'ETHERSCAN_API_KEY'),
@@ -22,7 +20,6 @@ API_KEYS = {
 
 MISTRAL_MODEL_NAME = "mistral-large-latest"
 
-# Endpoints for other services
 PND_DETECTION_MODEL_ENDPOINT = "http://20.199.80.240:5040/predict"
 SENTIMENT_ANALYSIS_MODEL_TELEMEGRAM_MESSAGES_ENDPOINT = "http://20.199.80.240:5030/telegram/messages"
 AI_BLOGGER_ENDPOINT = "http://20.199.80.240:5050/send-message"
@@ -298,15 +295,10 @@ def run_cron_job():
     sentiment = get_sentiment_analysis()
     logging.info("Cron job finished. Results: %s", results)
     logging.info("Sentiment analysis: %s", sentiment)
-    
-    # Parse the sentiment response
     analysis = sentiment.get("analysis")
     is_pump_and_dump = analysis.get("is_pump_and_dump", False)
     sentiment_summary = analysis.get("summary", "No sentiment summary provided.")
-    
-    # Check if there is any indicator to generate a blog post
     if is_pump_and_dump or any(result.get("prediction") == 1 for result in results):
-        # Build a prompt for Mistral to generate an engaging blog post
         prompt = f"""
 You are an expert crypto blogger. Based on the current market conditions, here are the details:
 - Pump & Dump Detected: {is_pump_and_dump}
@@ -318,7 +310,6 @@ Write a short and concize engaging, insightful blog about it , make sure you mak
         logging.info("Generated prompt for Mistral: %s", prompt)
         
         try:
-            # Call Mistral to generate the blog post
             llm_response = llm.chat.complete(
                 model=MISTRAL_MODEL_NAME,
                 messages=[{"role": "user", "content": prompt}],
@@ -330,7 +321,6 @@ Write a short and concize engaging, insightful blog about it , make sure you mak
             return
         
         try:
-            # Call the blogger API endpoint to send the blog to Telegram
             blogger_response = requests.post(AI_BLOGGER_ENDPOINT, json={"blog_text": blog_text}, timeout=20)
             blogger_response.raise_for_status()
             logging.info("Blog sent successfully via blogger API.")
@@ -341,12 +331,8 @@ Write a short and concize engaging, insightful blog about it , make sure you mak
 
 
 if __name__ == "__main__":
-    # For testing, run the cron job once
     run_cron_job()
-    
-    # Schedule the job to run every 4 hours
     schedule.every(4).hours.do(run_cron_job)
-    
     logging.info("Cron scheduler started. Waiting for the next scheduled run...")
     while True:
         schedule.run_pending()
